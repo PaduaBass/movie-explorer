@@ -6,24 +6,29 @@ import { DiscoverMovie, RequestDiscoverMovie, RequestDetailsMovie } from '../int
 // import { Container } from './styles';
 interface MovieContext {
     movies: null | RequestDiscoverMovie;
+    moviesTopRated: null | RequestDiscoverMovie;
     selectedMovie: null | RequestDetailsMovie;
     getData(): Promise<void>;
     plusMovie(): Promise<void>;
     selectMovie(id: number): Promise<void>;
     resetMovieSelected(): void;
+    plusMovieTopRated(): Promise<void>;
 }
 
 const MovieContext = createContext<MovieContext>({} as MovieContext);
 
 const MovieProvider: React.FC = ({ children }) => {
     const [movies, setMovies] = useState<null | RequestDiscoverMovie>(null);
+    const [moviesTopRated, setMoviesTopRated] = useState<null | RequestDiscoverMovie>(null);
     const [selectedMovie, setSelectedMovie] = useState<null | RequestDetailsMovie>(null);
     const [page, setPage] = useState(2);
+    const [pageTopRated, setPageTopRated] = useState(2);
     const getData = async () => {
         console.log('chamando')
-        const response = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
-        setMovies(response.data);
-        
+        const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
+        const movieTopRatedRequest = await api.get("/movie/top_rated?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
+        setMoviesTopRated(movieTopRatedRequest.data);
+        setMovies(movieRequest.data);
     };
 
     const plusMovie = async () => {
@@ -38,6 +43,18 @@ const MovieProvider: React.FC = ({ children }) => {
         }
     }
 
+    const plusMovieTopRated = async () => {
+        const response = await api.get(`/movie/top_rated?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&page=${pageTopRated}`);
+        console.log(page);
+        if(moviesTopRated && moviesTopRated.results){
+            const moviesResult = moviesTopRated;
+            const { results } = response.data;
+            results.map((result: DiscoverMovie) => moviesResult.results.push(result))
+            setPageTopRated(page + 1);
+            setMoviesTopRated(moviesResult);
+        }
+    }
+
     const selectMovie = async (id: number) => {
         const response = await api.get(`/movie/${id}?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt`);
         setSelectedMovie(response.data);
@@ -49,7 +66,7 @@ const MovieProvider: React.FC = ({ children }) => {
         }
     }
 
-    return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected }}>
+    return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated }}>
         { children }
     </MovieContext.Provider>;
 }

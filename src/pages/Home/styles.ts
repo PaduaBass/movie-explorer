@@ -24,6 +24,7 @@ export const ImageMovie = styled.Image`
     border-radius: 5px;
 `;
 
+
 export const TitleMovie = styled.Text`
     position: absolute;
     width: 100%;
