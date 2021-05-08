@@ -1,24 +1,30 @@
 import React, { useEffect } from 'react';
 import { View, Text, ActivityIndicator, Image, ListRenderItem } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Container from '../../components/Container/intex';
+import Container from '../../components/Container';
 import Header from '../../components/Header';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
 import { ContainerList, Content, ImageMovie, SeachInput, TitleCategory, TitleMovie, } from './styles';
 import logo from '../../../assets/logo.jpeg';
 import { useSeriesContext } from '../../contexts/dataService/Series';
+import { useNavigation } from '@react-navigation/core';
 const Home: React.FC = () => {
-  const { movies, getData, plusMovie } = useMovieContext();
+  const { movies, getData, plusMovie, selectMovie, resetMovieSelected } = useMovieContext();
   const { series, getDataSeries, plusSeries } = useSeriesContext();
+  const { navigate } = useNavigation();
   useEffect(() => {
     getData();
     getDataSeries();
+    resetMovieSelected();
+
   }, [])
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
-    return <ContainerList onPress={() => console.log(movie.id)}>
+    return <ContainerList onPress={() => {
+      navigate('Details',  movie);
+    }}>
       <ImageMovie resizeMode="contain" source={{ uri: `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}` }} height={250} width={250} />
-      <TitleMovie style={{ color: "#fff" }}>{movie.original_title}</TitleMovie>
+      <TitleMovie style={{ color: "#fff" }}>{movie.title ? movie.title : movie.name}</TitleMovie>
 
     </ContainerList>
   }
@@ -44,7 +50,7 @@ const Home: React.FC = () => {
     <TitleCategory>Series</TitleCategory>
     <FlatList
       data={series ? series.results : []}
-      keyExtractor={(item) => String(item.id)}
+      keyExtractor={(item, index) => String(index)}
       renderItem={(item) => renderItem(item)}
       horizontal
       showsHorizontalScrollIndicator={false}

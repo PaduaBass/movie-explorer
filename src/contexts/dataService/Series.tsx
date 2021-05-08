@@ -14,6 +14,7 @@ const SeriesContext = createContext<TvContext>({} as TvContext);
 
 const SeriesProvider: React.FC = ({ children }) => {
     const [series, setSeries] = useState<null | RequestDiscoverMovie>(null);
+    const [selectedSerie, setSelectedSerie] = useState(null);
     const [page, setPage] = useState(2);
     const getDataSeries = async () => {
         const response = await api.get("/discover/tv?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
