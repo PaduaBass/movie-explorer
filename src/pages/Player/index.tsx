@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ActivityIndicator, ListRenderItem, View, FlatList, Dimensions } from 'react-native';
+import { ListRenderItem, Platform, FlatList, Dimensions, Text } from 'react-native';
 import { Video } from 'expo-av';
 import { useRoute } from '@react-navigation/core';
 import { DiscoverMovie } from '../../contexts/interfaces';
@@ -20,7 +20,6 @@ const Player: React.FC = () => {
             if (movie.title) {
                 const response = await api.get(`/movie/${movie.id}/videos?api_key=b7b1762c97b44651d52bbe7e7fc52f09`)
                 setClips(response.data);
-                console.log(clips.results);
 
             } else {
                 const response = await api.get(`/tv/${movie.id}/videos?api_key=b7b1762c97b44651d52bbe7e7fc52f09`)
@@ -31,6 +30,11 @@ const Player: React.FC = () => {
     }, [])
 
     const renderItem: ListRenderItem<any> = ({ item: movie }) => {
+        if(Platform.OS === "web") {
+            return <Text>
+                <iframe src={`https://youtube.com/watch?v=${movie.key}`} width={window.width} height={400}/>
+            </Text>
+        }
         return <>
             <YoutubePlayer key={String(movie.id)} play={false} width={window.width} height={250}
                 videoId={movie.key}
@@ -41,7 +45,7 @@ const Player: React.FC = () => {
 
     return <Container>
         <FlatList
-            data={clips ? clips.results : []}
+            data={clips !== null ? clips.results : []}
             keyExtractor={(item, index) => String(index)}
             renderItem={(item) => renderItem(item)}
             

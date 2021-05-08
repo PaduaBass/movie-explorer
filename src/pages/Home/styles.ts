@@ -34,6 +34,7 @@ export const TitleMovie = styled.Text`
     background: #1119;
     text-align: center;
     bottom: 0;
+    font-family: Arial;
 `;
 
 
@@ -52,5 +53,5 @@ export const TitleCategory = styled.Text`
     color: #fff;
     font-size: 22px;
     font-weight: bold;
-    font-family: Roboto;
+    font-family: Arial;
 `;
