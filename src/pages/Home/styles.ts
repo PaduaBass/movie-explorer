@@ -8,18 +8,19 @@ export const Content = styled.View`
 
 
 export const ContainerList = styled.TouchableOpacity`
-    width: 250px;
-    height: 250px;
+    width: 180px;
+    height: 270px;
     background: #222;
-    margin-right: 20px;
+    margin-right: 10px;
     border-radius: 5px;
     max-width: 250px;
     max-height: 250px;
+
 `;
 
 export const ImageMovie = styled.Image`
-    width: 250px;
-    height: 250px;
+    width: 180px;
+    height: 270px;
     border-radius: 5px;
 `;
 
@@ -28,8 +29,8 @@ export const TitleMovie = styled.Text`
     width: 100%;
     font-weight: bold;
     color: #fff;
-    font-size: 20px;
-    background: #3339;
+    font-size: 14px;
+    background: #1119;
     text-align: center;
     bottom: 0;
 `;

@@ -7,35 +7,52 @@ import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
 import { ContainerList, Content, ImageMovie, SeachInput, TitleCategory, TitleMovie, } from './styles';
 import logo from '../../../assets/logo.jpeg';
+import { useSeriesContext } from '../../contexts/dataService/Series';
 const Home: React.FC = () => {
-  const { movies, getData } = useMovieContext();
+  const { movies, getData, plusMovie } = useMovieContext();
+  const { series, getDataSeries, plusSeries } = useSeriesContext();
   useEffect(() => {
     getData();
-  },[])
-  const renderItem: ListRenderItem<DiscoverMovie> = ({item: movie}) => {
+    getDataSeries();
+  }, [])
+  const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
     return <ContainerList onPress={() => console.log(movie.id)}>
-        <ImageMovie source={logo} height={250} width={250}/>
-        <TitleMovie style={{ color: "#fff" }}>{movie.title}</TitleMovie>
+      <ImageMovie resizeMode="contain" source={{ uri: `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}` }} height={250} width={250} />
+      <TitleMovie style={{ color: "#fff" }}>{movie.original_title}</TitleMovie>
 
     </ContainerList>
   }
   return <Container>
-        {!movies && <Content>
-          <ActivityIndicator color="#fff" size={60} />
-        </Content>}
-        <SeachInput 
+    {!movies && <Content>
+      <ActivityIndicator color="#fff" size={60} />
+    </Content>}
+    {/*      <SeachInput 
           placeholder="Pesquise aqui!"
           placeholderTextColor="#fff"
-        />
-        <TitleCategory>Discover</TitleCategory>
-        <FlatList
-          data={movies ? movies.results : []}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={(item) => renderItem(item)}
-          horizontal
-        />
+        /> */}
+    <TitleCategory>Filmes</TitleCategory>
+    <FlatList
+      data={movies ? movies.results : []}
+      keyExtractor={(item, index) => String(index)}
+      renderItem={(item) => renderItem(item)}
+      horizontal
+      onEndReached={plusMovie}
+      onEndReachedThreshold={0.3}
+      showsHorizontalScrollIndicator={false}
+    />
 
-  
+    <TitleCategory>Series</TitleCategory>
+    <FlatList
+      data={series ? series.results : []}
+      keyExtractor={(item) => String(item.id)}
+      renderItem={(item) => renderItem(item)}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      onEndReached={plusSeries}
+      onEndReachedThreshold={0.3}
+    />
+
+
   </Container>
 }
 

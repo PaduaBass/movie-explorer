@@ -10,7 +10,7 @@ const Routes: React.FC = () => {
         gestureEnabled: true,
         gestureDirection: "horizontal",
         headerTitle: "Free Movie",
-        headerStyle: { backgroundColor: "#DAA520" },
+        headerStyle: { backgroundColor: "#4169E1" },
         headerTintColor: "#ddd",
         headerTitleStyle: { fontWeight: 'bold',
         fontSize: 20,
