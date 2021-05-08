@@ -32,7 +32,7 @@ const Player: React.FC = () => {
     const renderItem: ListRenderItem<any> = ({ item: movie }) => {
         if(Platform.OS === "web") {
             return <Text>
-                <iframe src={`https://youtube.com/watch?v=${movie.key}`} width={window.width} height={400}/>
+                <iframe width={window.width} height="600" src={`https://www.youtube.com/embed/${movie.key}`} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
             </Text>
         }
         return <>
