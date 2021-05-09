@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   }
   return <Container>
     {!movies && <Content>
-      <ActivityIndicator color="#fff" size={60} />
+      <ActivityIndicator color="#fff" size={34} />
     </Content>}
     {/*      <SeachInput 
           placeholder="Pesquise aqui!"
@@ -37,6 +37,7 @@ const Home: React.FC = () => {
         /> */}
     {/*     <ImageMovie resizeMode="contain" source={{ uri: `https://image.tmdb.org/t/p/original/${movies?.results[0].poster_path}` }} height={250} width={250} />
  */}
+  { movies && moviesTopRated && series && <>
     <TitleCategory>Top</TitleCategory>
     <FlatList
       data={moviesTopRated ? moviesTopRated.results : []}
@@ -68,6 +69,7 @@ const Home: React.FC = () => {
       onEndReached={plusSeries}
       onEndReachedThreshold={0.3}
     />
+  </>}
 
 
   </Container>

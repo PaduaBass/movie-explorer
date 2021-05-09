@@ -14,7 +14,7 @@ const Routes: React.FC = () => {
         headerTitleAlign: "center",
         headerTitle: "Movie Explorer",
         headerStyle: { backgroundColor: "#4169E1" },
-        headerTintColor: "#ddd",
+        headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: 'bold',
         fontSize: 20,
         flex: 1,
