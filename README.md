@@ -4,11 +4,11 @@ This project was built was developed in __[React Native](https://reactnative.dev
 In the image below is the example of the Mobile version of the system.
 
 <div style="display: flex; flex-direction: row; max-width: 100%;" >
-    <img src="./assets/home.png" width="200px">
-    <img src="./assets/details.png" width="200px">
-    <img src="./assets/player.png" width="200px">
+    <img src="./assets/home.png" width="250px">
+    <img src="./assets/details.png" width="250px">
+    <img src="./assets/player.png" width="250px">
 </div>
 
 In the image below is the example of the Web version of the system.
-![System Exemple](./assets/system.png)
+    <img src="./assets/system.png" width="750px">
 
