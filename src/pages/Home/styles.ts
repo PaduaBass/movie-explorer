@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-
+import { Animated } from 'react-native';
+import LazyImage from 'animated-lazy-image';
 export const Content = styled.View`
     justify-content: center;
     align-items: center;
@@ -18,7 +19,7 @@ export const ContainerList = styled.TouchableOpacity`
 
 `;
 
-export const ImageMovie = styled.Image`
+export const ImageMovie = styled(Animated.Image)`
     width: 180px;
     height: 270px;
     border-radius: 5px;
@@ -34,7 +35,7 @@ export const TitleMovie = styled.Text`
     background: #1119;
     text-align: center;
     bottom: 0;
-    font-family: Arial;
+    font-family: 'Roboto';
 `;
 
 
@@ -53,5 +54,5 @@ export const TitleCategory = styled.Text`
     color: #fff;
     font-size: 22px;
     font-weight: bold;
-    font-family: Arial;
+    font-family: 'Roboto';
 `;

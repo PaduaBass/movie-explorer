@@ -32,14 +32,16 @@ const Player: React.FC = () => {
     const renderItem: ListRenderItem<any> = ({ item: movie }) => {
         if(Platform.OS === "web") {
             return <Text>
-                <iframe width={window.width} height="600" src={`https://www.youtube.com/embed/${movie.key}`} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                <iframe width={window.width} style={{ borderRadius: 4, marginTop: 10 }} height="600" src={`https://www.youtube.com/embed/${movie.key}`} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
             </Text>
         }
         return <>
-            <YoutubePlayer key={String(movie.id)} play={false} width={window.width} height={250}
-                videoId={movie.key}
-                webViewProps={{ renderToHardwareTextureAndroid: true, onTouchEnd: undefined, onTouchEndCapture: undefined  }}
-            />
+                
+                <YoutubePlayer  key={String(movie.id)} play={false} width={window.width} height={250}
+                    videoId={movie.key}
+                    webViewProps={{ renderToHardwareTextureAndroid: true, onTouchEnd: undefined, onTouchEndCapture: undefined  }}
+                    
+                />
         </>
     }
 
@@ -48,7 +50,6 @@ const Player: React.FC = () => {
             data={clips !== null ? clips.results : []}
             keyExtractor={(item, index) => String(index)}
             renderItem={(item) => renderItem(item)}
-            
         />
     </Container>
 
