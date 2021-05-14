@@ -9,8 +9,10 @@ import { useMovieContext } from '../../contexts/dataService/Movie';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 const BackgroundOpacity = Animatable.createAnimatableComponent(Background);
 const ContainerAnimated = Animatable.createAnimatableComponent(Container);
-
-const Drawer: React.FC = () => {
+interface DrawerProps {
+    body?: any;
+}
+const Drawer: React.FC<DrawerProps> = ({ body }) => {
     const { openCloseDrawer } = useDraweContext();
     const [close, setClose] = useState(false);
     const { genresMovie, genresTv } = useGenresContext();
@@ -40,12 +42,14 @@ const Drawer: React.FC = () => {
         <ContainerAnimated useNativeDriver animation={close ? "fadeOutLeft" : "fadeInLeft"} duration={500}  >
             <TitleDrawer>Categorias</TitleDrawer>
 
+            {body}
             <List
                 data={genresMovie}
                 keyExtractor={(item, index) => String(index)}
                 renderItem={(item: any) => RenderItemGenresMovie(item)}
                 showsVerticalScrollIndicator={false}
             />
+
 
         </ContainerAnimated>
     </>;

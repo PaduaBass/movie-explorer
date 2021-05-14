@@ -9,6 +9,7 @@ interface MovieContext {
     moviesTopRated: null | RequestDiscoverMovie;
     selectedMovie: null | RequestDetailsMovie;
     genreMovie: string;
+    images: string[];
     getData(): Promise<void>;
     plusMovie(): Promise<void>;
     selectMovie(id: number): Promise<void>;
@@ -26,12 +27,21 @@ const MovieProvider: React.FC = ({ children }) => {
     const [page, setPage] = useState(2);
     const [pageTopRated, setPageTopRated] = useState(2);
     const [genreMovie, setGenreMovie] = useState('Todos');
+    const [images, setImages] = useState<string[]>([]);
+
     const getData = async () => {
         console.log('chamando')
         const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
         const movieTopRatedRequest = await api.get("/movie/top_rated?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
+        
         setMoviesTopRated(movieTopRatedRequest.data);
         setMovies(movieRequest.data);
+        const images = [];
+        for(var i = 0; i <= 6; i++) {
+            images.push(`http://image.tmdb.org/t/p/w500/${moviesTopRated?.results[i].poster_path}`)
+        }
+        setImages(images)
+        console.log(images)
     };
 
     const getMoviesGenre = async (genre: string) => {
@@ -40,7 +50,6 @@ const MovieProvider: React.FC = ({ children }) => {
             const movieRequest = await api.get(`/search/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&query=${genre}`);
             if(movieRequest.data.results.length > 0) {
                 setMovies(movieRequest.data)
-                console.log(movies?.results.length)
             }
         } else {
             getData();
@@ -49,7 +58,6 @@ const MovieProvider: React.FC = ({ children }) => {
 
     const plusMovie = async () => {
         const response = await api.get(`/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&page=${page}`);
-        console.log(page);
         if(movies && movies.results){
             const moviesResult = movies;
             const { results } = response.data;
@@ -85,7 +93,7 @@ const MovieProvider: React.FC = ({ children }) => {
         getData()
     },[])
 
-    return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
+    return <MovieContext.Provider value={{ images, movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
         { children }
     </MovieContext.Provider>;
 }
