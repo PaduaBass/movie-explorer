@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { ContainerList, Content, TitleCategory } from './styles';
+import { Content, TitleCategory } from './styles';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 import LoadingImage from '../../components/LoadingImage';
 import ItemList from '../../components/ItemList';
@@ -17,10 +17,11 @@ const Home: React.FC = () => {
     getData();
     getDataSeries();
     resetMovieSelected();
+    return () => console.log('Desmontando home')
   }, [])
 
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
-    return <ItemList movie={movie} />
+    return <ItemList movie={movie} list={movie.title ? "movie" : "serie"} />
   }
   return <Container>
     {!movies && <Content>
@@ -58,4 +59,4 @@ const Home: React.FC = () => {
   </Container>
 }
 
-export default Home;
+export default React.memo(Home);

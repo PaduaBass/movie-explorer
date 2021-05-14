@@ -4,11 +4,15 @@ export const Container = styled.View`
   
 `;
 
-export const ContainerList = styled.TouchableOpacity`
+interface ContainerListProps {
+    grid?: boolean
+}
+export const ContainerList = styled.TouchableOpacity<ContainerListProps>`
     width: 180px;
     height: 270px;
     background: #222;
     margin-right: 10px;
+    margin-top: ${props => props.grid ? "30px" : "0px"};
     border-radius: 5px;
     max-width: 250px;
     max-height: 250px;

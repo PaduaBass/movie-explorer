@@ -1,17 +1,13 @@
 import React from 'react';
 import { enableScreens } from 'react-native-screens';
-import { createStackNavigator, HeaderTitle, CardStyleInterpolators, StackNavigationOptions, StackScreenProps, StackHeaderLeftButtonProps } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators, StackNavigationOptions } from '@react-navigation/stack';
 import Home from '../pages/Home';
 import Details from '../pages/Details';
 import Player from '../pages/Player';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import LoadingImage from '../components/LoadingImage';
-import { RectButton } from 'react-native-gesture-handler';
-import { useDraweContext } from '../contexts/components/DrawerContext';
 import Bars from './components/Bars';
-import Search from './components/Search';
+import SearchPage from '../pages/SearchPage';
 import { theme } from '../styles/theme';
+import Search from './components/Search';
 
 const Routes: React.FC = () => {
     enableScreens();
@@ -28,6 +24,7 @@ const Routes: React.FC = () => {
             fontWeight: 'bold',
             fontSize: 20,
             flex: 1,
+            fontFamily: theme.font,
         },
         headerLeft: () => <Bars />,
         headerRight: () => <Search />
@@ -40,8 +37,7 @@ const Routes: React.FC = () => {
         <Stack.Screen key={`Home`} name={`Home`} component={Home} />
         <Stack.Screen key={`Details`} name={`Details`} options={{ headerTitle: "Detalhes", headerLeft: undefined }} component={Details} />
         <Stack.Screen key={`Player`} name={`Player`} options={{ headerTitle: "Player", headerLeft: undefined }} component={Player} />
-
-
+        <Stack.Screen key={`Search`} name={`Search`} options={{ headerTitle: "Pesquisa", headerLeft: undefined, headerRight: undefined }} component={SearchPage} />
     </Stack.Navigator>;
 
 }

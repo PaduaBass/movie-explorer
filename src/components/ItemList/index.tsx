@@ -4,10 +4,14 @@ import { DiscoverMovie } from '../../contexts/interfaces';
 import { ContainerList, TitleMovie, ImageMovie } from './styles';
 interface ItemListProps {
     movie: DiscoverMovie;
+    grid?: boolean;
+    list: string;
 }
-const ItemList: React.FC<ItemListProps> = ({ movie }) => {
+const ItemList: React.FC<ItemListProps> = ({ movie, grid, list }) => {
     const { navigate  } = useNavigation()
-    return <ContainerList onPress={() => navigate('Details', movie)}>
+    console.log('render item', list)
+
+    return <ContainerList grid={grid} onPress={() => navigate('Details', movie)}>
         <ImageMovie
             loadingIndicatorSource={{ uri: `http://image.tmdb.org/t/p/w500/${movie.poster_path}` }}
             resizeMode="contain"

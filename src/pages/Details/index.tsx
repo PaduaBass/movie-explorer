@@ -27,11 +27,13 @@ const Details: React.FC = () => {
                 <TextTitle>Título: </TextTitle>
                 <Text>{movie.name ? movie.name : movie.title}</Text>
             </Row>
-            
-            <TextTitle>Título</TextTitle>
-            <Text>{movie.original_language}</Text>
-            
-            <TextTitle>Sobre</TextTitle>
+
+            <Row>
+                <TextTitle>Idioma: </TextTitle>
+                <Text>{movie.original_language}</Text>
+            </Row>
+
+            <TextTitle>Sobre: </TextTitle>
             <Text>{movie.overview}</Text>
         </Main>
 
