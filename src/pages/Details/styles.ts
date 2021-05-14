@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
 const window = Dimensions.get('window');
 
 export const Container = styled.View`
@@ -50,8 +51,6 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const Main = styled.View`
-
     width: 100%;
-    background: #3339;
     bottom: 0px;
 `;

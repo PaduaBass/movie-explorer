@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-
+import { Platform } from 'react-native';
 export const Container = styled.View`
     flex: 1;
     width: 100%;
@@ -9,16 +9,17 @@ export const Container = styled.View`
 `;
 
 export const List = styled.FlatList`
-    width: 80%;
+    width: ${Platform.OS === "web" ? "80%" : "90%"};
 `;
 
 export const SeachInput = styled.TextInput`
-    width: 80%;
+    width: ${Platform.OS === "web" ? "80%" : "90%"};
     height: 50px;
     border-radius: 4px;
-    border: 1px solid #eee;
+    border: 0;
+    background: #ddd;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 5px;
-    color: #fff;
+    color: #333;
 `;

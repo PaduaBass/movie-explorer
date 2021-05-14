@@ -17,7 +17,7 @@ const Details: React.FC = () => {
         <Content>
             <ImageMovie resizeMode="contain" source={{ uri: `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.poster_path}` }} height={300} width={window.width} />
         </Content>
-        <Main>
+        <Main >
             <Button onPress={() => {
                 navigate('Player', movie)
             }}>

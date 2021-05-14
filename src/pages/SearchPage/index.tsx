@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ListRenderItem } from 'react-native';
+import { ListRenderItem, Platform } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import ItemList from '../../components/ItemList';
 import LoadingImage from '../../components/LoadingImage';
@@ -9,7 +9,7 @@ import { DiscoverMovie } from '../../contexts/interfaces';
 
 import { Container, List, SeachInput } from './styles';
 
-const Search: React.FC = () => {
+const SearchPage: React.FC = () => {
     const { moviesTopRated, plusMovieTopRated } = useMovieContext();
     const { getSearch, search } = useSearchContext();
     const [searchIn, setSearctIn] = useState('');
@@ -30,11 +30,11 @@ const Search: React.FC = () => {
         onChangeText={(text) => setSearctIn(text)}
       />
 
-      <List 
+        <List 
         data={search.results !== undefined ? search.results : moviesTopRated ? moviesTopRated.results : []}
         keyExtractor={(item, index) => String(index)}
         renderItem={(item: any) => RenderItem(item)}
-        numColumns={6}
+        numColumns={Platform.OS === "web" ? 6 : 2}
         onEndReached={plusMovieTopRated}
         onEndReachedThreshold={0.3}
         ListFooterComponent={ <LoadingImage /> }
@@ -42,4 +42,4 @@ const Search: React.FC = () => {
     </Container>;
 }
 
-export default React.memo(Search);
+export default React.memo(SearchPage);

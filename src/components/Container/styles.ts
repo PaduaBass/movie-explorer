@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-
-export const ContainerView = styled.ScrollView`
+import { Animated } from 'react-native'
+export const ContainerView = styled(Animated.ScrollView)`
     flex: 1;
     background: #323232;
 `;

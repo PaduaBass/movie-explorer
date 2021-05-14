@@ -8,11 +8,13 @@ interface MovieContext {
     movies: null | RequestDiscoverMovie;
     moviesTopRated: null | RequestDiscoverMovie;
     selectedMovie: null | RequestDetailsMovie;
+    genreMovie: string;
     getData(): Promise<void>;
     plusMovie(): Promise<void>;
     selectMovie(id: number): Promise<void>;
     resetMovieSelected(): void;
     plusMovieTopRated(): Promise<void>;
+    getMoviesGenre(genre: string): Promise<void>;
 }
 
 const MovieContext = createContext<MovieContext>({} as MovieContext);
@@ -23,6 +25,9 @@ const MovieProvider: React.FC = ({ children }) => {
     const [selectedMovie, setSelectedMovie] = useState<null | RequestDetailsMovie>(null);
     const [page, setPage] = useState(2);
     const [pageTopRated, setPageTopRated] = useState(2);
+    const [genreMovie, setGenreMovie] = useState('Todos');
+
+    const [] = useState('');
     const getData = async () => {
         console.log('chamando')
         const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
@@ -30,6 +35,17 @@ const MovieProvider: React.FC = ({ children }) => {
         setMoviesTopRated(movieTopRatedRequest.data);
         setMovies(movieRequest.data);
     };
+
+    const getMoviesGenre = async (genre: string) => {
+        setGenreMovie(genre);
+        if(genre !== 'Todos') {
+            const movieRequest = await api.get(`/search/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&query=${genre}`);
+            setMovies(movieRequest.data)
+            console.log(movies?.results.length)
+        } else {
+            getData();
+        }
+    }
 
     const plusMovie = async () => {
         const response = await api.get(`/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&page=${page}`);
@@ -66,7 +82,11 @@ const MovieProvider: React.FC = ({ children }) => {
         }
     }
 
-    return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated }}>
+    useEffect(() => {
+        getData()
+    },[]) 
+
+    return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
         { children }
     </MovieContext.Provider>;
 }
