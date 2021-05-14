@@ -12,7 +12,6 @@ const ItemList: React.FC<ItemListProps> = ({ movie, grid, list }) => {
     const { navigate  } = useNavigation()
 
     return <ContainerList grid={grid} onPress={() => navigate('Details', movie)}>
-
         <ImageMovie
             loadingIndicatorSource={{ uri: `https://media4.giphy.com/media/3zhxq2ttgN6rEw8SDx/giphy.gif` }}
             resizeMode="contain"

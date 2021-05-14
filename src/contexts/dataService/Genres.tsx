@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import api from '../../services/api';
 
@@ -19,13 +19,12 @@ const GenresProvider: React.FC = ({ children }) => {
     const [genresMovie, setGenresMovie] = useState<Genre[]>([]);
     const [genresTv, setGenresTv] = useState([]);
 
-    const getGenres = async () => {
+    const getGenres = useCallback(async() => {
         const responseMovie = await api.get(`/genre/movie/list?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt`);
         const { genres } = responseMovie.data;
         genres.unshift({ id: -1, name: 'Todos' })
         setGenresMovie(Object.values(genres));
-
-    }
+    },[]);
 
     useEffect(() => {
         getGenres();

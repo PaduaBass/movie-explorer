@@ -26,8 +26,6 @@ const MovieProvider: React.FC = ({ children }) => {
     const [page, setPage] = useState(2);
     const [pageTopRated, setPageTopRated] = useState(2);
     const [genreMovie, setGenreMovie] = useState('Todos');
-
-    const [] = useState('');
     const getData = async () => {
         console.log('chamando')
         const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
@@ -40,8 +38,10 @@ const MovieProvider: React.FC = ({ children }) => {
         setGenreMovie(genre);
         if(genre !== 'Todos') {
             const movieRequest = await api.get(`/search/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&query=${genre}`);
-            setMovies(movieRequest.data)
-            console.log(movies?.results.length)
+            if(movieRequest.data.results.length > 0) {
+                setMovies(movieRequest.data)
+                console.log(movies?.results.length)
+            }
         } else {
             getData();
         }
@@ -80,11 +80,10 @@ const MovieProvider: React.FC = ({ children }) => {
         if(selectedMovie) {
             setSelectedMovie(null)
         }
-    }
-
+    }  
     useEffect(() => {
         getData()
-    },[]) 
+    },[])
 
     return <MovieContext.Provider value={{ movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
         { children }
