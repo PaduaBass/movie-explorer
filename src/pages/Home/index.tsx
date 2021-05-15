@@ -14,7 +14,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 const Home: React.FC = () => {
   const { movies, plusMovie, moviesTopRated, images } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
-  console.log('home render');
+
   let offset = 0;
   const translateY = new Animated.Value(0);
   const animatedEvent = Animated.event(

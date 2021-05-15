@@ -30,18 +30,10 @@ const MovieProvider: React.FC = ({ children }) => {
     const [images, setImages] = useState<string[]>([]);
 
     const getData = async () => {
-        console.log('chamando')
         const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
         const movieTopRatedRequest = await api.get("/movie/top_rated?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
-        
         setMoviesTopRated(movieTopRatedRequest.data);
         setMovies(movieRequest.data);
-        const images = [];
-        for(var i = 0; i <= 6; i++) {
-            images.push(`http://image.tmdb.org/t/p/w500/${moviesTopRated?.results[i].poster_path}`)
-        }
-        setImages(images)
-        console.log(images)
     };
 
     const getMoviesGenre = async (genre: string) => {
