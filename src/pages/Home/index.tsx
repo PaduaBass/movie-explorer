@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Animated, ListRenderItem } from 'react-native';
+import { Animated, ListRenderItem, Platform } from 'react-native';
 import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
@@ -17,6 +17,17 @@ const Home: React.FC = () => {
 
   let offset = 0;
   const translateY = new Animated.Value(0);
+  const firstAnim = Animated.timing(translateY, {
+    toValue: 420,
+    duration: Platform.OS === "web" ? 1500 : 1000,
+    useNativeDriver: true,
+    delay: Platform.OS === "web" ? 1500 : 500,
+  });
+  firstAnim.start(() => {
+    offset = 420;
+    translateY.setOffset(offset);
+    translateY.setValue(0);
+  });
   const animatedEvent = Animated.event(
     [
       {
