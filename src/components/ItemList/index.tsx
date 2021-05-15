@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { ImageBackground } from 'react-native';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { ContainerList, TitleMovie, ImageMovie } from './styles';
+import { ContainerList, TitleMovie, ImageMovie, BackgroundImage } from './styles';
+
 interface ItemListProps {
     movie: DiscoverMovie;
     grid?: boolean;

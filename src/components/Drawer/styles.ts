@@ -5,7 +5,7 @@ export const Container = styled.View`
     position: absolute;
     width: ${Platform.OS === "web" ? "20%" : "50%"};
     height: 100%;
-    margin-top: 39px;
+    margin-top: ${Platform.OS === 'web' ? 0 : 39}px;
     background: #4169E1;
     z-index: 9999;
     align-items: center;

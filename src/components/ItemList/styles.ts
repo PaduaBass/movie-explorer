@@ -37,3 +37,9 @@ export const TitleMovie = styled.Text`
     bottom: 0;
     font-family: 'Roboto';
 `;
+
+export const BackgroundImage = styled.ImageBackground`
+    width: 180px;
+    height: 270px;
+    border-radius: 5px;
+`;

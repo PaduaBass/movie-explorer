@@ -1,5 +1,11 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Animated } from 'react-native';
 import styled from 'styled-components/native';
+
+export const ContainerAnimated = styled(Animated.View)`
+    height: 100%;
+    background: #323232;
+`;
+
 export const Content = styled.View`
     justify-content: center;
     align-items: center;

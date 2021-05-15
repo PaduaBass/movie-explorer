@@ -4,7 +4,7 @@ import { Container } from './styles';
 
 const LoadingImage: React.FC = () => {
   return <Container>
-      <ActivityIndicator size="small" color="#fff" />
+      <ActivityIndicator size="small"  color="#fff" />
     </Container>
 }
 

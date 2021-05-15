@@ -1,76 +1,115 @@
 import React, { useEffect } from 'react';
-import { ListRenderItem } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { Animated, ListRenderItem } from 'react-native';
+import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { Content, TitleCategory } from './styles';
+import { Content, TitleCategory, ContainerAnimated } from './styles';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 import LoadingImage from '../../components/LoadingImage';
 import ItemList from '../../components/ItemList';
-import { Dimensions } from 'react-native';
-import { SliderBox } from "react-native-image-slider-box";
 import { TitleMovie, ImageMovie, ContainerList } from '../../components/ItemList/styles';
+import ItemBannerList from '../../components/ItemBannerList';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
 const Home: React.FC = () => {
   const { movies, plusMovie, moviesTopRated, images } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
+  console.log('home render');
+  let offset = 0;
+  const translateY = new Animated.Value(0);
+  const animatedEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationY: translateY
+        },
+      },
+    ],
+    { useNativeDriver: true, },
+  );
+
+  function onHandlerStateChange (event: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) {
+    if(event.nativeEvent.oldState === State.ACTIVE) {
+      let oppened = false;
+      const { translationY } = event.nativeEvent;
+      offset += translationY;
+      if(translationY >= 100) {
+        oppened = true
+      } else {
+        translateY.setOffset(offset);
+        translateY.setValue(0);
+        offset = 0;
+      }
+      Animated.timing(translateY, {
+        toValue: oppened ? 410 : 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(() => {
+        offset = oppened ? 410 : 0;
+        translateY.setOffset(offset);
+        translateY.setValue(0);
+      });
+    }
+  }
+  
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
     return <ItemList movie={movie} list={movie.title ? "movie" : "serie"} />
   }
 
-  const renderItemWeb: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
-    return <ContainerList>
-      <ImageMovie
-        loadingIndicatorSource={{ uri: `https://media4.giphy.com/media/3zhxq2ttgN6rEw8SDx/giphy.gif` }}
-        resizeMode="contain"
-        source={{ uri: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`, cache: "only-if-cached" }}
-        height={250} width={250}
-      />
-      <TitleMovie >{movie.name}</TitleMovie>
-    </ContainerList>
-  }
-  return <Container>
+  return <>
     {!movies && <Content>
       <LoadingImage />
     </Content>}
 
-    {movies && moviesTopRated && series && <>
-      <Content>
-        <TitleCategory>Filmes</TitleCategory>
-        <FlatList
-          data={movies ? movies.results : []}
-          keyExtractor={(item, index) => String(index)}
-          renderItem={(item) => renderItem(item)}
-          onEndReached={plusMovie}
-          onEndReachedThreshold={0.3}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ListFooterComponent={<LoadingImage />}
-          removeClippedSubviews
-          maxToRenderPerBatch={20}
-          initialNumToRender={10}
-        />
+    {movies && moviesTopRated && series && <Container>
+      <ItemBannerList translateY={translateY} movies={moviesTopRated.results} />
 
-        <TitleCategory>Series</TitleCategory>
-        <FlatList
-          data={series ? series.results : []}
-          keyExtractor={(item, index) => String(index)}
-          renderItem={(item) => renderItem(item)}
-          showsHorizontalScrollIndicator={false}
-          onEndReached={plusSeries}
-          onEndReachedThreshold={0.3}
-          horizontal
-          ListFooterComponent={<LoadingImage />}
-          removeClippedSubviews
-          maxToRenderPerBatch={20}
-          initialNumToRender={10}
-        />
+      <PanGestureHandler
+        onGestureEvent={animatedEvent}
+        onHandlerStateChange={onHandlerStateChange}
+      >
 
-      </Content>
-    </>}
+        <ContainerAnimated style={{ transform: [{ translateY: translateY.interpolate({
+          inputRange: [-350, 0, 410],
+          outputRange: [-50, 0, 410],
+          extrapolate: "clamp"
+        }), }] }}>
+
+          <TitleCategory>Filmes</TitleCategory>
+          <FlatList
+            data={movies ? movies.results : []}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={(item) => renderItem(item)}
+            onEndReached={plusMovie}
+            onEndReachedThreshold={0.3}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ListFooterComponent={<LoadingImage />}
+            removeClippedSubviews
+            maxToRenderPerBatch={20}
+            initialNumToRender={10}
+          />
+
+          <TitleCategory>Series</TitleCategory>
+          <FlatList
+            data={series ? series.results : []}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={(item) => renderItem(item)}
+            showsHorizontalScrollIndicator={false}
+            onEndReached={plusSeries}
+            onEndReachedThreshold={0.3}
+            horizontal
+            ListFooterComponent={<LoadingImage />}
+            removeClippedSubviews
+            maxToRenderPerBatch={20}
+            initialNumToRender={10}
+          />
+        </ContainerAnimated>
+      </PanGestureHandler>
+    </Container>}
 
 
-  </Container>
+  </>
 }
 
 export default React.memo(Home);
