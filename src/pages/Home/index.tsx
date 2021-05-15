@@ -4,7 +4,7 @@ import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { Content, TitleCategory, ContainerAnimated, Scroll } from './styles';
+import { Content, TitleCategory, ContainerAnimated } from './styles';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 import LoadingImage from '../../components/LoadingImage';
 import ItemList from '../../components/ItemList';
@@ -35,23 +35,17 @@ const Home: React.FC = () => {
       offset += translationY;
       if(translationY >= 100) {
         oppened = true
-      } 
-      if(translationY < 100) {
-        translateY.setOffset(offset);
-        translateY.setValue(0);
-        offset = 0;
-      }
-      else {
-        translateY.setOffset(offset);
-        translateY.setValue(0);
+      } else {
+        translateY.setValue(offset);
+        translateY.setOffset(0);
         offset = 0;
       }
       Animated.timing(translateY, {
-        toValue: oppened ? 410 : 0,
+        toValue: oppened ? 420 : 0,
         duration: 200,
         useNativeDriver: true,
       }).start(() => {
-        offset = oppened ? 410 : 0;
+        offset = oppened ? 420 : 0;
         translateY.setOffset(offset);
         translateY.setValue(0);
       });
@@ -76,8 +70,8 @@ const Home: React.FC = () => {
       >
 
         <ContainerAnimated style={{ transform: [{ translateY: translateY.interpolate({
-          inputRange: [-550, 0, 410],
-          outputRange: [-10, 0, 410],
+          inputRange: [-350, 0, 420],
+          outputRange: [-50, 0, 420],
           extrapolate: "clamp"
         }), }] }}>
           <TitleCategory>Filmes</TitleCategory>
@@ -110,7 +104,7 @@ const Home: React.FC = () => {
             initialNumToRender={10}
           />
           
-     
+        
         </ContainerAnimated>
       </PanGestureHandler>
     </Container>}

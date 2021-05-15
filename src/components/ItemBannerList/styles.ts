@@ -3,9 +3,8 @@ import styled from 'styled-components/native';
 
 export const Container = styled(Animated.View)`
     width: 100%;
-    height: 270px;
     background: #222;
-    height: 400px;
+    height: 410px;
     margin-right: 10px;
     border-radius: 5px;
     margin-top: 10px;
@@ -14,7 +13,7 @@ export const Container = styled(Animated.View)`
 
 export const ImageBanner = styled.Image`
     width: ${Dimensions.get("window").width}px;
-    height: 470px;
+    height: 410px;
     border-radius: 5px;
 `;
 
