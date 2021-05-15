@@ -16,7 +16,6 @@ export const ContainerList = styled.TouchableOpacity<ContainerListProps>`
     border-radius: 5px;
     max-width: 250px;
     max-height: 250px;
-
 `;
 
 export const ImageMovie = styled.Image`

@@ -3,7 +3,9 @@ import { DiscoverMovie } from '../../contexts/interfaces';
 
 import { Container, Dot, ImageBanner, Row, TitleMovie } from './styles';
 import * as Animatable from 'react-native-animatable';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/core';
 interface ItemBannerListProps {
     movies: DiscoverMovie[];
     translateY: Animated.Value;
@@ -11,7 +13,7 @@ interface ItemBannerListProps {
 
 const ItemBannerList: React.FC<ItemBannerListProps> = ({ movies, translateY }) => {
     const [index, setIndex] = useState(0);
-
+    const { navigate } = useNavigation();
     setTimeout(() => {
         if (index + 1 < movies.length) {
             setIndex(index + 1);
@@ -20,22 +22,22 @@ const ItemBannerList: React.FC<ItemBannerListProps> = ({ movies, translateY }) =
         }
     }, 9000)
 
-   
-
-    console.log('Banner render');
-
-    return <Container style={{ opacity: translateY.interpolate({
-        inputRange: [0, 350],
-        outputRange: [0, 1],
-    }) }}>
-        <ImageBanner 
+    return <Container style={{
+        opacity: translateY.interpolate({
+            inputRange: [0, 350],
+            outputRange: [0, 1],
+        })
+    }}>
+        <TouchableOpacity onPress={() => navigate('Details', movies[index])}>
+        <ImageBanner
             loadingIndicatorSource={{ uri: `https://media4.giphy.com/media/3zhxq2ttgN6rEw8SDx/giphy.gif` }}
             source={{ uri: `http://image.tmdb.org/t/p/w500/${movies[index].poster_path}`, cache: "only-if-cached" }}
             height={250} width={400}
-            resizeMode='stretch'
+            resizeMode={Platform.OS === "web" ? 'contain' : 'stretch'}
         />
         <TitleMovie style={{ color: "#fff" }}>{movies[index].title ? movies[index].title : movies[index].name}</TitleMovie>
-    </Container>;
+        </TouchableOpacity>
+        </Container >;
 }
 
 export default React.memo(ItemBannerList);

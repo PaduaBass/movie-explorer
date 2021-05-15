@@ -4,7 +4,7 @@ import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { Content, TitleCategory, ContainerAnimated } from './styles';
+import { Content, TitleCategory, ContainerAnimated, Scroll } from './styles';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 import LoadingImage from '../../components/LoadingImage';
 import ItemList from '../../components/ItemList';
@@ -35,7 +35,13 @@ const Home: React.FC = () => {
       offset += translationY;
       if(translationY >= 100) {
         oppened = true
-      } else {
+      } 
+      if(translationY < 100) {
+        translateY.setOffset(offset);
+        translateY.setValue(0);
+        offset = 0;
+      }
+      else {
         translateY.setOffset(offset);
         translateY.setValue(0);
         offset = 0;
@@ -51,7 +57,7 @@ const Home: React.FC = () => {
       });
     }
   }
-  
+
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
     return <ItemList movie={movie} list={movie.title ? "movie" : "serie"} />
   }
@@ -70,11 +76,10 @@ const Home: React.FC = () => {
       >
 
         <ContainerAnimated style={{ transform: [{ translateY: translateY.interpolate({
-          inputRange: [-350, 0, 410],
-          outputRange: [-50, 0, 410],
+          inputRange: [-550, 0, 410],
+          outputRange: [-10, 0, 410],
           extrapolate: "clamp"
         }), }] }}>
-
           <TitleCategory>Filmes</TitleCategory>
           <FlatList
             data={movies ? movies.results : []}
@@ -104,6 +109,8 @@ const Home: React.FC = () => {
             maxToRenderPerBatch={20}
             initialNumToRender={10}
           />
+          
+     
         </ContainerAnimated>
       </PanGestureHandler>
     </Container>}

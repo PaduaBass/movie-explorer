@@ -6,6 +6,10 @@ export const ContainerAnimated = styled(Animated.View)`
     background: #323232;
 `;
 
+export const Scroll = styled.ScrollView`
+    position: absolute;
+`;
+
 export const Content = styled.View`
     justify-content: center;
     align-items: center;
