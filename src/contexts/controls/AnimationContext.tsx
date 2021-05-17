@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useState, useEffect } from 'react';
 import { Animated, View } from 'react-native';
 import { HandlerStateChangeEvent, PanGestureHandlerEventPayload, State } from 'react-native-gesture-handler';
 
@@ -14,6 +14,16 @@ const AnimationProvider: React.FC = ({ children }) => {
   const translateY = new Animated.Value(0);
   let offset: number = 0;
 
+  useEffect(() => {
+    Animated.timing(translateY, {
+      toValue: 420,
+      duration: 1000,
+      useNativeDriver: true
+    }).start(() => {
+      translateY.setOffset(420);
+      translateY.setValue(0);
+    })
+  },[])
 
   const animatedEvent = Animated.event(
     [

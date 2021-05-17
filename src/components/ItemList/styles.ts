@@ -42,3 +42,11 @@ export const BackgroundImage = styled.ImageBackground`
     height: 270px;
     border-radius: 5px;
 `;
+
+export const TitleCategory = styled.Text`
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    margin: 10px 0px;
+`;

@@ -2,18 +2,18 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { Animated, ImageBackground } from 'react-native';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { Container, ContainerList, TitleMovie, ImageMovie, BackgroundImage } from './styles';
+import { Container, ContainerList, TitleMovie, ImageMovie, BackgroundImage, TitleCategory } from './styles';
 
 interface ItemListProps {
     movie: DiscoverMovie;
     grid?: boolean;
     list: string;
-    translateY: Animated.Value;
+    translateY?: Animated.Value;
 }
 const ItemList: React.FC<ItemListProps> = ({ movie, grid, list, translateY }) => {
     const { navigate } = useNavigation()
 
-    return <Container >
+    return <Container>
         <ContainerList grid={grid} onPress={() => navigate('Details', movie)}>
             <ImageMovie
                 loadingIndicatorSource={{ uri: `https://media4.giphy.com/media/3zhxq2ttgN6rEw8SDx/giphy.gif` }}

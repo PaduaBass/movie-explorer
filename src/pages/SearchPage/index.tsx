@@ -1,18 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { ListRenderItem, Platform } from 'react-native';
+import { Button, ListRenderItem, Platform } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import ItemList from '../../components/ItemList';
 import LoadingImage from '../../components/LoadingImage';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { useSearchContext } from '../../contexts/dataService/Search';
 import { DiscoverMovie } from '../../contexts/interfaces';
-
 import { Container, List, SeachInput } from './styles';
 
 const SearchPage: React.FC = () => {
     const { moviesTopRated, plusMovieTopRated } = useMovieContext();
     const { getSearch, search } = useSearchContext();
     const [searchIn, setSearctIn] = useState('');
+
     const handleSearch = async() => {
         await getSearch(searchIn)
         //await getSearch(query);

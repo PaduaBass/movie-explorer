@@ -6,6 +6,7 @@ import { DiscoverMovie, RequestDiscoverMovie, RequestDetailsMovie } from '../int
 // import { Container } from './styles';
 interface MovieContext {
     movies: null | RequestDiscoverMovie;
+    moviesAction: null | RequestDiscoverMovie;
     moviesTopRated: null | RequestDiscoverMovie;
     selectedMovie: null | RequestDetailsMovie;
     genreMovie: string;
@@ -22,6 +23,7 @@ const MovieContext = createContext<MovieContext>({} as MovieContext);
 
 const MovieProvider: React.FC = ({ children }) => {
     const [movies, setMovies] = useState<null | RequestDiscoverMovie>(null);
+    const [moviesAction, setMoviesAction] = useState<null | RequestDiscoverMovie>(null);
     const [moviesTopRated, setMoviesTopRated] = useState<null | RequestDiscoverMovie>(null);
     const [selectedMovie, setSelectedMovie] = useState<null | RequestDetailsMovie>(null);
     const [page, setPage] = useState(2);
@@ -32,8 +34,10 @@ const MovieProvider: React.FC = ({ children }) => {
     const getData = async () => {
         const movieRequest = await api.get("/discover/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
         const movieTopRatedRequest = await api.get("/movie/top_rated?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt");
+        const movieActionRequest = await api.get('/search/movie?api_key=b7b1762c97b44651d52bbe7e7fc52f09&language=pt&query=Ação');
         setMoviesTopRated(movieTopRatedRequest.data);
         setMovies(movieRequest.data);
+        setMoviesAction(movieActionRequest.data);
     };
 
     const getMoviesGenre = async (genre: string) => {
@@ -85,7 +89,7 @@ const MovieProvider: React.FC = ({ children }) => {
         getData()
     },[])
 
-    return <MovieContext.Provider value={{ images, movies, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
+    return <MovieContext.Provider value={{ images, movies, moviesAction, getData, plusMovie, selectMovie, selectedMovie, resetMovieSelected, moviesTopRated, plusMovieTopRated, genreMovie, getMoviesGenre }}>
         { children }
     </MovieContext.Provider>;
 }

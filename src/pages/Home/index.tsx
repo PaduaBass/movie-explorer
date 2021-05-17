@@ -13,7 +13,7 @@ import ItemBannerList from '../../components/ItemBannerList';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { useAnimationContext } from '../../contexts/controls/AnimationContext';
 const Home: React.FC = () => {
-  const { movies, plusMovie, moviesTopRated, images } = useMovieContext();
+  const { movies, plusMovie, moviesTopRated, images, moviesAction } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
   const { animatedEvent, onHandlerStateChange, translateY } = useAnimationContext();
 
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
             translateY: translateY.interpolate({
               inputRange: [-350, 0, 420],
               outputRange: [-50, 0, 420],
-              extrapolate: "clamp"
+              extrapolate: "identity"
             }),
           }]
         }}>
