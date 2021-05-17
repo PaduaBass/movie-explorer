@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated, ListRenderItem, Platform } from 'react-native';
 import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 import Container from '../../components/Container';
@@ -11,60 +11,14 @@ import ItemList from '../../components/ItemList';
 import { TitleMovie, ImageMovie, ContainerList } from '../../components/ItemList/styles';
 import ItemBannerList from '../../components/ItemBannerList';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { useAnimationContext } from '../../contexts/controls/AnimationContext';
 const Home: React.FC = () => {
   const { movies, plusMovie, moviesTopRated, images } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
-
-  let offset = 0;
-  const translateY = new Animated.Value(0);
-  const firstAnim = Animated.timing(translateY, {
-    toValue: 420,
-    duration: Platform.OS === "web" ? 1500 : 1000,
-    useNativeDriver: true,
-    delay: Platform.OS === "web" ? 1500 : 500,
-  });
-  firstAnim.start(() => {
-    offset = 420;
-    translateY.setOffset(offset);
-    translateY.setValue(0);
-  });
-  const animatedEvent = Animated.event(
-    [
-      {
-        nativeEvent: {
-          translationY: translateY
-        },
-      },
-    ],
-    { useNativeDriver: true, },
-  );
-
-  function onHandlerStateChange (event: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) {
-    if(event.nativeEvent.oldState === State.ACTIVE) {
-      let oppened = false;
-      const { translationY } = event.nativeEvent;
-      offset += translationY;
-      if(translationY >= 100) {
-        oppened = true
-      } else {
-        translateY.setValue(offset);
-        translateY.setOffset(0);
-        offset = 0;
-      }
-      Animated.timing(translateY, {
-        toValue: oppened ? 420 : 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(() => {
-        offset = oppened ? 420 : 0;
-        translateY.setOffset(offset);
-        translateY.setValue(0);
-      });
-    }
-  }
+  const { animatedEvent, onHandlerStateChange, translateY } = useAnimationContext();
 
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
-    return <ItemList movie={movie} list={movie.title ? "movie" : "serie"} />
+    return <ItemList translateY={translateY} movie={movie} list={movie.title ? "movie" : "serie"} />
   }
 
   return <>
@@ -80,11 +34,15 @@ const Home: React.FC = () => {
         onHandlerStateChange={onHandlerStateChange}
       >
 
-        <ContainerAnimated style={{ transform: [{ translateY: translateY.interpolate({
-          inputRange: [-350, 0, 420],
-          outputRange: [-50, 0, 420],
-          extrapolate: "clamp"
-        }), }] }}>
+        <ContainerAnimated style={{
+          transform: [{
+            translateY: translateY.interpolate({
+              inputRange: [-350, 0, 420],
+              outputRange: [-50, 0, 420],
+              extrapolate: "clamp"
+            }),
+          }]
+        }}>
           <TitleCategory>Filmes</TitleCategory>
           <FlatList
             data={movies ? movies.results : []}
@@ -98,6 +56,7 @@ const Home: React.FC = () => {
             removeClippedSubviews
             maxToRenderPerBatch={20}
             initialNumToRender={10}
+          
           />
 
           <TitleCategory>Series</TitleCategory>
@@ -114,8 +73,6 @@ const Home: React.FC = () => {
             maxToRenderPerBatch={20}
             initialNumToRender={10}
           />
-          
-        
         </ContainerAnimated>
       </PanGestureHandler>
     </Container>}
