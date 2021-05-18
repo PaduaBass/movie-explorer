@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { Animated, ImageBackground } from 'react-native';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import { Container, ContainerList, TitleMovie, ImageMovie, BackgroundImage, TitleCategory } from './styles';
+import { Container, ContainerList, TitleMovie, ImageMovie, BackgroundShimmer, TitleCategory } from './styles';
 
 interface ItemListProps {
     movie: DiscoverMovie;
@@ -13,11 +13,12 @@ interface ItemListProps {
 const ItemList: React.FC<ItemListProps> = ({ movie, grid, list, translateY }) => {
     const { navigate } = useNavigation()
 
-    return <Container>
+    return <Container >
         <ContainerList grid={grid} onPress={() => navigate('Details', movie)}>
+            <BackgroundShimmer  />
             <ImageMovie
                 loadingIndicatorSource={{ uri: `https://media4.giphy.com/media/3zhxq2ttgN6rEw8SDx/giphy.gif` }}
-                resizeMode="contain"
+                resizeMode="stretch"
                 source={{ uri: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`, cache: "only-if-cached" }}
                 height={250} width={250}
             />

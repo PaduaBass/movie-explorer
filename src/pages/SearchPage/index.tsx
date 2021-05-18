@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { Button, ListRenderItem, Platform } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import ItemList from '../../components/ItemList';
-import LoadingImage from '../../components/LoadingImage';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { useSearchContext } from '../../contexts/dataService/Search';
 import { DiscoverMovie } from '../../contexts/interfaces';
@@ -35,9 +34,7 @@ const SearchPage: React.FC = () => {
         keyExtractor={(item, index) => String(index)}
         renderItem={(item: any) => RenderItem(item)}
         numColumns={Platform.OS === "web" ? 6 : 2}
-        onEndReached={plusMovieTopRated}
-        onEndReachedThreshold={0.3}
-        ListFooterComponent={ <LoadingImage /> }
+        showsVerticalScrollIndicator={false}
       />
     </Container>;
 }

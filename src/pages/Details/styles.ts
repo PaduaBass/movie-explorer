@@ -1,9 +1,13 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import styled from 'styled-components/native';
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder';
+import { LinearGradient } from 'expo-linear-gradient';
+const ShimmerCompoent = createShimmerPlaceholder(LinearGradient);
 const window = Dimensions.get('window');
 
-export const Container = styled.View`
-  
+export const Container = styled.ScrollView`
+    background: #323232;
+
 `;
 
 
@@ -38,7 +42,7 @@ export const TitleButton = styled.Text`
 `;
 
 export const Content = styled.View`
-
+    background: #323232;
 
 `;
 
@@ -51,4 +55,12 @@ export const Button = styled.TouchableOpacity`
 export const Main = styled.View`
     width: 100%;
     bottom: 0px;
+    background: #323232;
+
+`;
+
+export const BackgroundShimmer = styled(ShimmerCompoent)`
+    width: ${window.width}px;
+    height: ${window.height - 210}px;
+    position: absolute;
 `;

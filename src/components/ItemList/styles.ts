@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder';
+import { LinearGradient } from 'expo-linear-gradient';
+const ShimmerCompoent = createShimmerPlaceholder(LinearGradient);
+
 export const Container = styled(Animated.View)`
   
 `;
@@ -37,10 +41,11 @@ export const TitleMovie = styled.Text`
     font-family: 'Roboto';
 `;
 
-export const BackgroundImage = styled.ImageBackground`
+export const BackgroundShimmer = styled(ShimmerCompoent)`
     width: 180px;
     height: 270px;
     border-radius: 5px;
+    position: absolute;
 `;
 
 export const TitleCategory = styled.Text`
@@ -50,3 +55,4 @@ export const TitleCategory = styled.Text`
     font-family: 'Roboto';
     margin: 10px 0px;
 `;
+

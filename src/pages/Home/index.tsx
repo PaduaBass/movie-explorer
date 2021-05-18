@@ -39,7 +39,7 @@ const Home: React.FC = () => {
             translateY: translateY.interpolate({
               inputRange: [-350, 0, 420],
               outputRange: [-50, 0, 420],
-              extrapolate: "identity"
+              extrapolate: "clamp"
             }),
           }]
         }}>
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
           
           />
 
-          <TitleCategory>Series</TitleCategory>
+          <TitleCategory style={{ marginTop: -120 }}>Series</TitleCategory>
           <FlatList
             data={series ? series.results : []}
             keyExtractor={(item, index) => String(index)}
