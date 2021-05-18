@@ -15,11 +15,17 @@ import { useAnimationContext } from '../../contexts/controls/AnimationContext';
 const Home: React.FC = () => {
   const { movies, plusMovie, moviesTopRated, images, moviesAction } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
-  const { animatedEvent, onHandlerStateChange, translateY } = useAnimationContext();
+  const { animatedEvent, onHandlerStateChange, translateY, firstAnimation } = useAnimationContext();
 
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
     return <ItemList translateY={translateY} movie={movie} list={movie.title ? "movie" : "serie"} />
   }
+ 
+  useEffect(() => {
+    if(moviesAction !== null) {
+      firstAnimation()
+    }
+  }, [moviesAction])
 
   return <>
     {!movies && <Content>
@@ -59,7 +65,7 @@ const Home: React.FC = () => {
           
           />
 
-          <TitleCategory style={{ marginTop: -120 }}>Series</TitleCategory>
+          <TitleCategory style={{ marginTop: Platform.OS === "web" ? -100 : -120 }}>Series</TitleCategory>
           <FlatList
             data={series ? series.results : []}
             keyExtractor={(item, index) => String(index)}
