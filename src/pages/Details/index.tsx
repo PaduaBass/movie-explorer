@@ -4,7 +4,6 @@ import { Dimensions, Platform } from 'react-native';
 import { DiscoverMovie } from '../../contexts/interfaces';
 import { Button, Content, ImageMovie, Main, Row, Text, TextTitle, TitleButton, BackgroundShimmer, Container } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import LoadingImage from '../../components/LoadingImage';
 const window = Dimensions.get('window');
 
 
