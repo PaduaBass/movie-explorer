@@ -1,13 +1,11 @@
-import React, { useEffect, useState, createRef } from 'react';
-import { ListRenderItem, Platform, FlatList, Dimensions, Text, Animated, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ListRenderItem, Platform, FlatList, Dimensions, Text } from 'react-native';
 import { useRoute } from '@react-navigation/core';
 import { DiscoverMovie } from '../../contexts/interfaces';
-import YoutubePlayer, { YoutubeIframeProps, YoutubeIframeRef } from "react-native-youtube-iframe";
 import api from '../../services/api';
 const window = Dimensions.get('window');
-
 import { Container, ContainerPlayer, ContainerShimmer, ShimmerPlaceholder, YouTubeWebView } from './styles';
-import LoadingImage from '../../components/LoadingImage';
+
 const Player: React.FC = () => {
     const movie = useRoute().params as DiscoverMovie;
     const [clips, setClips] = useState<any>(null);

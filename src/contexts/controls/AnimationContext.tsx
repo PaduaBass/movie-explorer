@@ -6,7 +6,6 @@ import { HandlerStateChangeEvent, PanGestureHandlerEventPayload, State } from 'r
 interface AnimationContextProps {
   translateY: Animated.Value;
   offset: number;
-  firstAnimation(): void;
   animatedEvent(): void;
   onHandlerStateChange(event: HandlerStateChangeEvent<PanGestureHandlerEventPayload>): void;
 }
@@ -15,16 +14,17 @@ const AnimationProvider: React.FC = ({ children }) => {
   const translateY = new Animated.Value(0);
   let offset: number = 0;
 
-  const firstAnimation = useCallback(() => {
+  useEffect(() => {
     Animated.timing(translateY, {
       toValue: 420,
       duration: 1000,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start(() => {
       translateY.setOffset(420);
       translateY.setValue(0);
     })
-  }, [])
+  },[]);
+  
 
   const animatedEvent = Animated.event(
     [
@@ -60,7 +60,7 @@ const AnimationProvider: React.FC = ({ children }) => {
 
     }
   }
-  return <AnimationContext.Provider value={{ animatedEvent, onHandlerStateChange, offset, translateY, firstAnimation }}>
+  return <AnimationContext.Provider value={{ animatedEvent, onHandlerStateChange, offset, translateY }}>
     {children}
   </AnimationContext.Provider>;
 }

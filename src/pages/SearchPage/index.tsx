@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { Button, ListRenderItem, Platform } from 'react-native';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { ListRenderItem, Platform } from 'react-native';
 import ItemList from '../../components/ItemList';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { useSearchContext } from '../../contexts/dataService/Search';

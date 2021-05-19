@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Animated, ListRenderItem, Platform } from 'react-native';
-import { FlatList, HandlerStateChangeEvent, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
+import React from 'react';
+import { ListRenderItem, Platform } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import Container from '../../components/Container';
 import { useMovieContext } from '../../contexts/dataService/Movie';
 import { DiscoverMovie } from '../../contexts/interfaces';
@@ -8,24 +8,17 @@ import { Content, TitleCategory, ContainerAnimated } from './styles';
 import { useSeriesContext } from '../../contexts/dataService/Series';
 import LoadingImage from '../../components/LoadingImage';
 import ItemList from '../../components/ItemList';
-import { TitleMovie, ImageMovie, ContainerList } from '../../components/ItemList/styles';
 import ItemBannerList from '../../components/ItemBannerList';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import { useAnimationContext } from '../../contexts/controls/AnimationContext';
 const Home: React.FC = () => {
-  const { movies, plusMovie, moviesTopRated, images, moviesAction } = useMovieContext();
+  const { movies, plusMovie, moviesTopRated } = useMovieContext();
   const { series, plusSeries } = useSeriesContext();
-  const { animatedEvent, onHandlerStateChange, translateY, firstAnimation } = useAnimationContext();
+  const { animatedEvent, onHandlerStateChange, translateY } = useAnimationContext();
 
   const renderItem: ListRenderItem<DiscoverMovie> = ({ item: movie }) => {
     return <ItemList translateY={translateY} movie={movie} list={movie.title ? "movie" : "serie"} />
   }
- 
-  useEffect(() => {
-    if(moviesAction !== null) {
-      firstAnimation()
-    }
-  }, [moviesAction])
 
   return <>
     {!movies && <Content>
