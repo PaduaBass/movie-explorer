@@ -50,10 +50,7 @@ const Player: React.FC = () => {
                 onReady={() => { }}
                 webViewStyle={{ borderRadius: 4 }}
                 allowWebViewZoom={false}
-
             />
-
-
         </ContainerPlayer>
     }
 

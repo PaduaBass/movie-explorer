@@ -75,8 +75,6 @@ const Home: React.FC = () => {
         </ContainerAnimated>
       </PanGestureHandler>
     </Container>}
-
-
   </>
 }
 
